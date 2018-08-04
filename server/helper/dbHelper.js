@@ -1,35 +1,31 @@
-/* ===== Persist data with LevelDB ===================================
-|  Learn more: level: https://github.com/Level/level     |
-|  =============================================================*/
-
-const level = require('level');
-const chainDB = './BlockchainDB';
-const db = level(chainDB);
 
 //Add data to levelDB with key/value pair
-function addLevelDBData(key,value){
+function addLevelDBData(db,key,value){
   return db.put(key, value)
 }
 
 // Get data from levelDB with key
-function getLevelDBData(key){
+function getLevelDBData(db,key){
   return db.get(key)
 }
 
 // Add data to levelDB with value
-function addDataToLevelDB(value) {
+function addDataToLevelDB(db,value) {
     let i = 0;
-    db.createReadStream().on('data', function(data) {
-          i++;
-        }).on('error', function(err) {
-            return console.log('Unable to read data stream!', err)
-        }).on('close', function() {
-          console.log('Block #' + i);
-          addLevelDBData(i, value);
-        });
+    return new Promise((resolve,reject)=>{
+      db.createReadStream().on('data', function(data) {
+            i++;
+          }).on('error', function(err) {
+              reject()
+          }).on('close', function() {
+            addLevelDBData(db,i, value)
+              .then(()=>resolve())
+          });
+      })
 }
 
-function countLevelDBData(){
+
+function countLevelDBData(db){
    	let count = 0
     return new Promise((resolve,reject)=>{
         db.createReadStream()
@@ -39,10 +35,26 @@ function countLevelDBData(){
       });
 }
 
+
+function findLevelDBdata(db,address){
+    return new Promise((resolve,reject)=>{
+        db.createValueStream()
+          .on('data', data => {
+              console.log(data)
+              request = JSON.parse(data)
+              if (request.address && request.address === address){
+                  resolve({found: true, request})
+              }
+          })
+          .on('close', ()=> resolve({found: false}))
+          .on('error', err => reject(err))
+    })
+}
+
 module.exports = {
-	db,
 	addLevelDBData,
 	getLevelDBData,
 	addDataToLevelDB,
-	countLevelDBData
+	countLevelDBData,
+  findLevelDBdata
 }

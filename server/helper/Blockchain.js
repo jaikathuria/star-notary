@@ -1,9 +1,10 @@
-const Block = require('./../../model/Block');
+const level = require('level')
+const chainDB = './BlockchainDB'
+const blockData = level(chainDB)
+const Block = require('./../model/Block');
 const SHA256 = require('crypto-js/sha256');
-const { db, 
-        addLevelDBData,
+const { addLevelDBData,
         getLevelDBData,
-        addDataToLevelDB,
         countLevelDBData
       } = require('./dbHelper.js');
 
@@ -33,7 +34,7 @@ class Blockchain{
    }
 
    _getPreviousHash(height){
-     return getLevelDBData(height-1)
+     return getLevelDBData(blockData,blockheight-1)
        .then(data => JSON.parse(data))
        .then(block => block.hash)
        .catch(err => {
@@ -52,16 +53,16 @@ class Blockchain{
       .then(height => { 
         return this._createBlock(data,height)
       })
-      .then(block => db.put(block.height,JSON.stringify(block)))
+      .then(block => addLevelDBData(blockData,block.height,JSON.stringify(block)))
    }
 
     getBlockHeight(){
-      return countLevelDBData()
+      return countLevelDBData(blockData)
     }
 
     getBlock(blockHeight){
       // return object as a single string
-      return db.get(blockHeight)
+      return getLevelDBData(blockData,blockHeight)
           .then(blockString => JSON.parse(blockString))
           .catch(err => {
             console.log(`No Block with Height value ${blockHeight}`,err)
