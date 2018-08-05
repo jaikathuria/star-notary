@@ -10,6 +10,11 @@
 	} = require('./dbHelper.js')
 
 	module.exports = class Blockchain{
+
+		constructor(){
+			this.blockData = blockData
+		}
+
 		init(){
 			return this.getBlockHeight()
 				.then(height => {
@@ -66,8 +71,8 @@
 			// return object as a single string
 			return getLevelDBData(blockData,blockHeight)
 				.then(blockString => JSON.parse(blockString))
-				.catch(err => {
-					console.log(`No Block with Height value ${blockHeight}`,err)   // eslint-disable-line
+				.catch(() => {
+					console.log(`No Block with Height value ${blockHeight}`)   // eslint-disable-line
 					return undefined
 				})
 		}

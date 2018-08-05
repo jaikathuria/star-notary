@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "binstring": "^0.2.1",
     "bitcoinjs-lib": "^4.0.1",
     "bitcoinjs-message": "^2.0.0",
     "body-parser": "^1.18.3",

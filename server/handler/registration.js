@@ -3,6 +3,7 @@
 	const {
 		findLevelDBdata
 	} = require('../helper/dbHelper.js')
+	const conv = require('binstring')
 	/* Database Imports Ends*/
 	module.exports = function(userData,blockchain){
 		return (req,res)=>{
@@ -53,7 +54,7 @@
 					const starBody = {
 						rightAscension: star.rightAscension,
 						declination: star.declination,
-						story: star.story,
+						story: conv(star.story, { in: 'binary', out: 'hex'}),
 						constellation: star.constellation || null,
 						magnitude: star.magnitude || null
 					}
@@ -62,7 +63,6 @@
 						.then(block => {
 							userData.del(key)
 								.then(()=> res.json(block))
-							
 						})
 				})
 		}
