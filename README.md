@@ -1,7 +1,7 @@
 # Star Notarization Service
 
-Blockchain has the potential to change the way that the world approaches data. 
-We need to create a star registry notarization web service.
+Blockchain has the potential to change the way that the world approaches data. This WebAPI demonstrates the use of blockchain to create a Star Notarization Service. 
+
 
 ## Getting Started
 
@@ -12,6 +12,8 @@ These instructions will get you a copy of the project up and running on your loc
 Installing Node and NPM is pretty straightforward using the installer package available from the [Node.js® web site](https://nodejs.org/en/).
 Use the command line tool of your choice (basically a terminal with `npm` and `node` in PATH)
 
+You will need a bitcoin wallet to obtain your bitcoin address and validate the message using your own personal address. Navigate to [Electrum.org](https://electrum.org/#download) to download and install your bitcoin wallet.
+Once you have downloaded and installed the wallet, Use your wallet to sign the message provided by our web application.
 ### Configuring your project
 
 - Use NPM to install project dependencies.
