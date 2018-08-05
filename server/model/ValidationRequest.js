@@ -5,6 +5,10 @@
 			this.requestTimeStamp = new Date().getTime()
 			this.message = `${address}:${this.requestTimeStamp}:starRegistry`
 			this.requestExpiry = this.requestTimeStamp + (5 * 60 * 1000)
+			this.status = {
+				messageSignature: 'unavailable',
+				starRegistrationRequest: 'pending'
+			}
 		}
 	}
 }())

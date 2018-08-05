@@ -1,8 +1,13 @@
 (function () {
+	const level = require('level')
+	const userDB = './userDB'
+	const userData = level(userDB)
 	module.exports = function (app, blockchain){
 		// Import Route Handlers
-		const validation = require('../handler/validation')()
+		const requestValidation = require('../handler/request-validation')(userData)
+		const validation = require('../handler/validation')(userData)
 		// Routes
-		app.post('/requestValidation$',validation)
+		app.post('/requestValidation$',requestValidation)
+		app.post('/message-signature/validate$',validation)
 	}
 }())

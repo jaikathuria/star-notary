@@ -12,7 +12,7 @@
 		.then(chain=>{
 			server.listen(PORT,()=>{
 				console.log(`app listening on port ${PORT}!`) // eslint-disable-line
-				require('./server/routes/index')(app, chain)
+				require('./server/routes')(app, chain)
 			})
 		})
 }())
