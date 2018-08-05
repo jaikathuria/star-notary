@@ -52,7 +52,10 @@
 				.then(height => { 
 					return this._createBlock(data,height)
 				})
-				.then(block => addLevelDBData(blockData,block.height,JSON.stringify(block)))
+				.then(block =>{
+					return addLevelDBData(blockData,block.height,JSON.stringify(block))
+						.then(() => block)
+				})
 		}
 
 		getBlockHeight(){
