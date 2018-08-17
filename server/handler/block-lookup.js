@@ -13,7 +13,9 @@
 					if(!block) {
 						return res.status(404).send({ error: `Block number ${height} not found!` })
 					}
-					block.body.star.story = conv(block.body.star.story, {in: 'hex', out: 'binary'})
+					if(block.height !== 0){
+						block.body.star.story = conv(block.body.star.story, {in: 'hex', out: 'binary'})
+					}
 					return res.json(block)
 				})
 		}
